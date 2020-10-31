@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Hardik Nanda - Blogging about InfoSec related stuff</title>
+    <meta name="description" content="Blogging about InfoSec related stuff" />
+
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" type="text/css" href="/home/assets/css/screen.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+    <!-- Customisation  -->
+    <link rel="stylesheet" type="text/css" href="/home/assets/css/main.css " />
+
+</head>
+<body class="home-template">
+
+    <header class="main-header post-head no-cover">
+    <nav class="main-nav  clearfix">
+        <a class="back-button icon-arrow-left" href="/home/">Home</a>
+        <a class="subscribe-button icon-feed" href="/home/feed.xml">Subscribe</a>
+    </nav>
+</header>
+
+<main class="content" role="main">
+
+    <article class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Open Redirects - Everything That You Should Know</h1>
+            <section class="post-meta">
+                
+                <time class="post-date" datetime="2020-04-16">16 Apr 2020</time>
+            </section>
+        </header>
+
+<!--         <header class="post-header">
+            <a id="blog-logo" href="http://localhost:4000">
+                
+                    <img src="true" alt="Hardik Nanda" />
+                
+            </a>
+        </header> -->
+
+        <!-- <span class="post-meta">
+            <time datetime="2020-04-16">16 Apr 2020</time>
+            
+        </span> -->
+
+        <!-- <h1 class="post-title">Open Redirects - Everything That You Should Know</h1> -->
+
+        <section class="post-content">
+            <p>Hey There! In this post I’ll be explaining everything that is necessary for a layman(not really) to understand Open Redirects. Let’s start!</p>
+
+<blockquote>
+  <p>Open Redirect or Open Redirection is a situation in which a website redirects or sends the user to another website by taking parameter value as the destination.</p>
+</blockquote>
+
+<p>Example:</p>
+<ul>
+  <li>URL - <code class="language-plaintext highlighter-rouge">http://site.com/redir?url=http://www.google.com</code></li>
+  <li>parameter name - <code class="language-plaintext highlighter-rouge">url</code></li>
+  <li>parameter value - <code class="language-plaintext highlighter-rouge">http://www.google.com</code></li>
+  <li>destination(the website to which you will be redirected) - <code class="language-plaintext highlighter-rouge">http://www.google.com</code></li>
+</ul>
+
+<h3 id="javascript-based-redirection">Javascript Based Redirection</h3>
+
+<p>The URL - <code class="language-plaintext highlighter-rouge">http://site.com/redir?url=http://www.google.com</code> will send you or redirect you to <code class="language-plaintext highlighter-rouge">http://www.google.com</code>.</p>
+
+<p>Now, let’s take a look at the code which is the cause of our redirection.</p>
+
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">url</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://site.com/redir?url=http://www.google.com</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">param</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">URL</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">location</span> <span class="o">=</span> <span class="nx">param</span><span class="p">.</span><span class="nx">searchParams</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">url</span><span class="dl">'</span><span class="p">);</span></code></pre></figure>
+
+<p>What’s happening is that, the code is taking the parameter value from the URL which is <code class="language-plaintext highlighter-rouge">http://www.google.com</code> and then it’s assigning the value to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/location" target="_blank"><code class="language-plaintext highlighter-rouge">window.location</code></a> and that’s how you are getting redirected to <code class="language-plaintext highlighter-rouge">http://www.google.com</code>. And this is what we call - Javascript Based Redirection.</p>
+
+<p><code class="language-plaintext highlighter-rouge">window.location</code> is the sink here, whereas <code class="language-plaintext highlighter-rouge">param.searchParams.get('url');</code> is the source.</p>
+
+<p><strong>Note:</strong> When you’re trying to fuzz the parameters, remember that Javascript Based Redirections give you <code class="language-plaintext highlighter-rouge">200</code> and not <code class="language-plaintext highlighter-rouge">3xx</code> as the response code. Also, it’s usefulness is only restricted to DOM XSS.</p>
+
+<h3 id="header-based-redirection">Header Based Redirection</h3>
+
+<p>Header Based Redirection are the redirections triggered by the server side scripts written in php, java, etc. And, this redirection is the OG as it gives <code class="language-plaintext highlighter-rouge">3xx</code> as the response code and it can be uplifted to make SSRFs work.</p>
+
+<p>Let’s see an example PHP code that does this redirection:</p>
+
+<figure class="highlight"><pre><code class="language-php" data-lang="php"><span class="nv">$redirect_URL</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s2">"url"</span><span class="p">];</span>
+<span class="nb">header</span><span class="p">(</span><span class="s2">"Location:"</span><span class="mf">.</span><span class="nv">$redirect_URL</span><span class="p">);</span></code></pre></figure>
+
+<p>As usual, the parameter value is getting stored into the location header which leads us to our redirection. It can be chained with vulnerabilities like SSRF, OAuth token disclosure and CRLF Injection. It can also be used for phishing.</p>
+
+<p>Functionalities you should look upto(while hunting for Open Redirects): login, signup, register &amp; logout.</p>
+
+<h3 id="meta-refresh-redirection">Meta Refresh Redirection</h3>
+
+<p>Meta Refresh Redirection is a client side redirection. It occurs within your browser and requires no server side interaction. Meta tags are inserted into the head tag.</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"1;url='http://www.google.com';"</span> <span class="na">http-equiv=</span><span class="s">"refresh"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/head&gt;</span></code></pre></figure>
+
+<p>The above meta tag, if inserted in a HTML document, will redirect to <code class="language-plaintext highlighter-rouge">http://www.google.com</code> after waiting for one second. These type of redirections (Javscript Based and Meta Refresh) are client side redirections and hence they will always puke out <code class="language-plaintext highlighter-rouge">200</code> as the response code. The exploitation is just same as Javascript Based Redirection, the only thing you have to keep an eye on is the meta tag and the JS content.</p>
+
+<h3 id="list-of-quality-bypasses">List of Quality Bypasses</h3>
+
+<p>Here’s a short list of payloads that I’ve collected, after going through some HackerOne reports and using them on different targets:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">https:www.google.com</code></li>
+  <li><code class="language-plaintext highlighter-rouge">HtTp://google.com</code></li>
+  <li><code class="language-plaintext highlighter-rouge">http\x3A\x2F\x2Fgoogle.com</code></li>
+  <li><code class="language-plaintext highlighter-rouge">//google。com</code></li>
+  <li><code class="language-plaintext highlighter-rouge">x00http://google.com</code></li>
+  <li><code class="language-plaintext highlighter-rouge">////216.58.214.206</code></li>
+  <li><code class="language-plaintext highlighter-rouge">/\216.58.214.206</code></li>
+  <li><code class="language-plaintext highlighter-rouge">x20http://www.google.com</code></li>
+  <li><code class="language-plaintext highlighter-rouge">https://www.google.com</code></li>
+  <li><code class="language-plaintext highlighter-rouge">hthttp://tp://www.google.com</code></li>
+  <li><code class="language-plaintext highlighter-rouge">。/www.google.com</code></li>
+</ul>
+
+<h3 id="dorks--parameter-names">Dorks &amp; Parameter Names</h3>
+
+<p>Some useful google dorks:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">site:target.com AND inurl:url=http(s)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">site:target.com AND inurl:u=http(s)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">site:target.com AND inurl:redirect?http(s)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">site:target.com AND inurl:redirect=http(s)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">site:target.com AND inurl:link=http(s)</code></li>
+</ul>
+
+<p>Some parameter names that need attention while looking for Open Redirects:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">?next=</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?url=</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?dest=</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?redirect=</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?returnTo=</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?go=</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?redirect_uri</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?continue=</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?return_path=</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?externalLink=</code></li>
+  <li><code class="language-plaintext highlighter-rouge">?URL=</code></li>
+</ul>
+
+<p>More Resources:</p>
+
+<ul>
+  <li><a href="https://pentester.land/cheatsheets/2018/11/02/open-redirect-cheatsheet.html" target="_blank">https://pentester.land/cheatsheets/2018/11/02/open-redirect-cheatsheet.html</a></li>
+  <li><a href="https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md" target="_blank">https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md</a></li>
+  <li><a href="https://blog.detectify.com/2019/05/16/the-real-impact-of-an-open-redirect/" target="_blank">https://blog.detectify.com/2019/05/16/the-real-impact-of-an-open-redirect/</a></li>
+</ul>
+
+<p>That’s all for this post, it’s <a href="https://twitter.com/r0075h3ll">Hardik Nanda</a>, signing off!</p>
+
+        </section>
+
+        
+
+        <footer class="post-footer">
+            <!-- If we want to display author's name and bio -->
+            
+                <figure class="author-image">
+                    <a class="img" href="/home/" style="background-image: url(/home/assets/images/profile.png)">
+                    <span class="hidden">Hardik Nanda's Picture</span></a>
+                </figure>
+                <section class="author">
+                    <!-- Author Name -->
+                    <h4> Hardik Nanda </h4>
+                    <!-- Author Bio -->
+                    <p>
+                        InfoSec Enthusiast
+                    </p>
+                </section>
+            
+
+            <!-- Share links section -->
+            <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?text=Open Redirects - Everything That You Should Know&amp;url=http://yourblog-domain.com/2020/04/16/Open-Redirects-Everything-That-You-Should-Know.html"
+        onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://yourblog-domain.com/2020/04/16/Open-Redirects-Everything-That-You-Should-Know.html"
+        onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=http://yourblog-domain.com/2020/04/16/Open-Redirects-Everything-That-You-Should-Know.html"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section>
+
+            <!-- Disqus comments -->
+            
+
+        </footer>
+
+    </article>
+
+</main>
+
+    <footer class="site-footer clearfix">
+      <section class="copyright">
+        <a href="https://twitter.com/r0075h3ll" target="_blank">Hardik Nanda</a> &copy; 
+              2020 &bull; All rights reserved.
+      </section>
+      <!--<section class="poweredby">Made with Jekyll using 
+        <a href="http://github.com/rosario/kasper">Kasper theme</a>
+      </section>-->
+    </footer>
+    
+    <script type="text/javascript" src="/home/assets/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/home/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="/home/assets/js/index.js"></script>
+
+    <!-- Google Analytics Tracking code -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-XXXXXXXX-X']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>   
+</body>
+</html>

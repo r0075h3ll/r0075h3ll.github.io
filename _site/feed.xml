@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <description>Blogging about InfoSec related stuff</description>
+    <link>http://localhost:4000/home/</link>
+    <atom:link href="http://localhost:4000/home/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sat, 31 Oct 2020 14:07:53 +0530</pubDate>
+    <lastBuildDate>Sat, 31 Oct 2020 14:07:53 +0530</lastBuildDate>
+    <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>Make your programs go supersonic in Python</title>
+        <description>&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;https://i.ibb.co/5jxw7n2/banner.png&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;br /&gt;
+Programming is a very essential skill that one can have, but not being able to “write code” is completely fine, or is it just the half truth?&lt;/p&gt;
+
+&lt;p&gt;You see, bug hunting is a completely different zone in hacking, where upon you can make a huge amount of money without being able to write a single line of code, and I am definitely not saying that bug hunters are not good hackers, they are! But the problem arises when you’re planning to go beyond the mark.&lt;/p&gt;
+
+&lt;h2 id=&quot;basics&quot;&gt;Basics&lt;/h2&gt;
+
+&lt;p&gt;Let’s start by understanding the basic terminologies first:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Parallel Programming&lt;/strong&gt;&lt;br /&gt;
+When the application/program breaks the task into smaller smaller subtasks, further, the subtasks are assigned to different CPU cores and then execution happens in parallel, simultaneously. Parallelism is helpful when there is CPU related work.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Concurrency&lt;/strong&gt;&lt;br /&gt;
+When the application/program breaks the task into smaller subtasks, and assign them to the same CPU core, the execution happens at the same time but not simlutaneously. Concurrency is helpful when the work is I/O related.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;strong&gt;Multiprocessing&lt;/strong&gt;&lt;br /&gt;
+In multiprocessing, two or more separate processes are assgined to different CPU cores and thus the execution occurs in parallel. The process(es) do(es) not belong to a same task. That’s the difference between Parallelism and Multiprocessing, parallel computing uses CPU cores to get a single job done quickly, but multiprocessing runs multiple jobs on multiple CPU cores.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Thu, 16 Apr 2020 15:48:00 +0530</pubDate>
+        <link>http://localhost:4000/home/2020/04/16/Make-your-programs-go-supersonic-in-Python.html</link>
+        <guid isPermaLink="true">http://localhost:4000/home/2020/04/16/Make-your-programs-go-supersonic-in-Python.html</guid>
+        
+        
+      </item>
+    
+      <item>
+        <title>Open Redirects - Everything That You Should Know</title>
+        <description>&lt;p&gt;Hey There! In this post I’ll be explaining everything that is necessary for a layman(not really) to understand Open Redirects. Let’s start!&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Open Redirect or Open Redirection is a situation in which a website redirects or sends the user to another website by taking parameter value as the destination.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;URL - &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://site.com/redir?url=http://www.google.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;parameter name - &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;url&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;parameter value - &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://www.google.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;destination(the website to which you will be redirected) - &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://www.google.com&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;javascript-based-redirection&quot;&gt;Javascript Based Redirection&lt;/h3&gt;
+
+&lt;p&gt;The URL - &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://site.com/redir?url=http://www.google.com&lt;/code&gt; will send you or redirect you to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://www.google.com&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now, let’s take a look at the code which is the cause of our redirection.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-javascript&quot; data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;http://site.com/redir?url=http://www.google.com&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;param&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;location&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;searchParams&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;url&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;What’s happening is that, the code is taking the parameter value from the URL which is &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://www.google.com&lt;/code&gt; and then it’s assigning the value to &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Window/location&quot; target=&quot;_blank&quot;&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;window.location&lt;/code&gt;&lt;/a&gt; and that’s how you are getting redirected to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://www.google.com&lt;/code&gt;. And this is what we call - Javascript Based Redirection.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;window.location&lt;/code&gt; is the sink here, whereas &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;param.searchParams.get('url');&lt;/code&gt; is the source.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; When you’re trying to fuzz the parameters, remember that Javascript Based Redirections give you &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;200&lt;/code&gt; and not &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3xx&lt;/code&gt; as the response code. Also, it’s usefulness is only restricted to DOM XSS.&lt;/p&gt;
+
+&lt;h3 id=&quot;header-based-redirection&quot;&gt;Header Based Redirection&lt;/h3&gt;
+
+&lt;p&gt;Header Based Redirection are the redirections triggered by the server side scripts written in php, java, etc. And, this redirection is the OG as it gives &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;3xx&lt;/code&gt; as the response code and it can be uplifted to make SSRFs work.&lt;/p&gt;
+
+&lt;p&gt;Let’s see an example PHP code that does this redirection:&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span class=&quot;nv&quot;&gt;$redirect_URL&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$_GET&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;url&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;header&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Location:&quot;&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$redirect_URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;As usual, the parameter value is getting stored into the location header which leads us to our redirection. It can be chained with vulnerabilities like SSRF, OAuth token disclosure and CRLF Injection. It can also be used for phishing.&lt;/p&gt;
+
+&lt;p&gt;Functionalities you should look upto(while hunting for Open Redirects): login, signup, register &amp;amp; logout.&lt;/p&gt;
+
+&lt;h3 id=&quot;meta-refresh-redirection&quot;&gt;Meta Refresh Redirection&lt;/h3&gt;
+
+&lt;p&gt;Meta Refresh Redirection is a client side redirection. It occurs within your browser and requires no server side interaction. Meta tags are inserted into the head tag.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;nt&quot;&gt;&amp;lt;meta&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;content=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;1;url='http://www.google.com';&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;http-equiv=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;refresh&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nt&quot;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;The above meta tag, if inserted in a HTML document, will redirect to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://www.google.com&lt;/code&gt; after waiting for one second. These type of redirections (Javscript Based and Meta Refresh) are client side redirections and hence they will always puke out &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;200&lt;/code&gt; as the response code. The exploitation is just same as Javascript Based Redirection, the only thing you have to keep an eye on is the meta tag and the JS content.&lt;/p&gt;
+
+&lt;h3 id=&quot;list-of-quality-bypasses&quot;&gt;List of Quality Bypasses&lt;/h3&gt;
+
+&lt;p&gt;Here’s a short list of payloads that I’ve collected, after going through some HackerOne reports and using them on different targets:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https:www.google.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;HtTp://google.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http\x3A\x2F\x2Fgoogle.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;//google。com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x00http://google.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;////216.58.214.206&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/\216.58.214.206&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x20http://www.google.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://www.google.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;hthttp://tp://www.google.com&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;。/www.google.com&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;dorks--parameter-names&quot;&gt;Dorks &amp;amp; Parameter Names&lt;/h3&gt;
+
+&lt;p&gt;Some useful google dorks:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;site:target.com AND inurl:url=http(s)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;site:target.com AND inurl:u=http(s)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;site:target.com AND inurl:redirect?http(s)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;site:target.com AND inurl:redirect=http(s)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;site:target.com AND inurl:link=http(s)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Some parameter names that need attention while looking for Open Redirects:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?next=&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?url=&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?dest=&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?redirect=&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?returnTo=&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?go=&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?redirect_uri&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?continue=&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?return_path=&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?externalLink=&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?URL=&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;More Resources:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pentester.land/cheatsheets/2018/11/02/open-redirect-cheatsheet.html&quot; target=&quot;_blank&quot;&gt;https://pentester.land/cheatsheets/2018/11/02/open-redirect-cheatsheet.html&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md&quot; target=&quot;_blank&quot;&gt;https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://blog.detectify.com/2019/05/16/the-real-impact-of-an-open-redirect/&quot; target=&quot;_blank&quot;&gt;https://blog.detectify.com/2019/05/16/the-real-impact-of-an-open-redirect/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;That’s all for this post, it’s &lt;a href=&quot;https://twitter.com/r0075h3ll&quot;&gt;Hardik Nanda&lt;/a&gt;, signing off!&lt;/p&gt;
+</description>
+        <pubDate>Thu, 16 Apr 2020 15:48:00 +0530</pubDate>
+        <link>http://localhost:4000/home/2020/04/16/Open-Redirects-Everything-That-You-Should-Know.html</link>
+        <guid isPermaLink="true">http://localhost:4000/home/2020/04/16/Open-Redirects-Everything-That-You-Should-Know.html</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>
