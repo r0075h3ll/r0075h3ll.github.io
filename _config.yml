@@ -6,9 +6,9 @@ markdown: kramdown
 highlighter: rouge
 logo: true
 paginate: 40
-baseurl: /home
-domain_name: "http://yourblog-domain.com"
-google_analytics: "UA-XXXXXXXX-X"
+baseurl: /
+domain_name: "https://r0075h3ll.github.io"
+#google_analytics: "UA-XXXXXXXX-X"
 plugins: [jekyll-paginate]
 
 # Details for the RSS feed generator
