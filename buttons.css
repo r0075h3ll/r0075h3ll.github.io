@@ -1,0 +1,57 @@
+.btn_tw {
+  background-color: transparent; /* Green */
+  border: 1px solid transparent;
+  color: white;
+  padding: 15px 32px;
+  text-decoration: none;
+  display: inline-block;
+  margin:0 10px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 50px;
+  width: 79px;
+  height: 79px;
+}
+
+
+.btn_tw:hover {
+  border: 1px solid white;
+}
+
+.btn_git {
+  background-color: transparent; /* Green */
+  border: 1px solid transparent;
+  color: white;
+  padding: 15px 32px;
+  text-decoration: none;
+  display: inline-block;
+  margin:0 10px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 50px;
+  width: 79px;
+  height: 79px;
+}
+
+.btn_git:hover {
+  border: 1px solid white;
+}
+
+.btn_ins {
+  background-color: transparent; /* Green */
+  border: 1px solid transparent;
+  color: white;
+  padding: 15px 32px;
+  text-decoration: none;
+  display: inline-block;
+  margin:0 10px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 50px;
+  width: 79px;
+  height: 79px;
+}
+
+.btn_ins:hover {
+  border: 1px solid white;
+}
