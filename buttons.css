@@ -55,3 +55,13 @@
 .btn_ins:hover {
   border: 1px solid white;
 }
+
+.post-excerpt-image {
+  padding: 6px;
+  opacity: 1;
+  transition-duration: 0.4s;
+}
+
+.post-excerpt-image:hover {
+  opacity: 0.3;
+}
