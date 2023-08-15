@@ -3,7 +3,7 @@ title: "LLM Security Series: Nuts and Bolts"
 layout: post
 categories: AI
 tags: [llm]
-date: 2023-08-07
+date: 2023-08-15
 ---
 
 As the title suggests, I am going to publish a series of blog posts discussing and demonstrating different attack vectors against LLMs. This is the first post of the series that deals with the 101s; it talks about:
