@@ -20,7 +20,7 @@ LLM or Large Language Model is basically a Machine Learning model that's based o
 3. Inefficient
 
 
-Let's try to understand aforesaid drawbacks using an example. Suppose there's a program that solely uses RNN to translate input sequences(sentences). Now, because of how RNN works, the program will only be able to process and translate a single element/word of the given input sequence at a time, making the whole translation task time consuming. And that's also one of the reasons why it is hard to train RNN model(s); it can only focus on a single element at a time. Even parallelization using GPUs wont solve this problem because of the very nature of RNN: each computational cell in RNN is connected to the previous one relies on its output for further processing.
+Let's try to understand aforesaid drawbacks using an example. Suppose there's a program that solely uses RNN to translate input sequences(sentences). Now, because of how RNN works, the program will only be able to process and translate a single element/word of the given input sequence at a time, making the whole translation task time consuming. And that's also one of the reasons why it is hard to train RNN model(s); it can only focus on a single element at a time. Even parallelization using GPUs wont solve this problem because of the very nature of RNN: each computational cell in RNN is connected to the previous one and it relies on its output for further processing.
 
 
 Also, RNNs face this issue called vanishing gradient when working with long sequences. So, if we are working with a longer sentence, by the time it will reach the end of it, it won't remember what was going in the beginning.
@@ -78,7 +78,7 @@ Now, depending upon certain parameters, token will be selected and returned to t
 
 ### The error: where does it lack
 
-LLMs are very capable of generating analytical and fluent as well as diverse and creative texts. But, there are places/situations where it has been known/seen to have generated output(s), while exercising it's creative freedom, that completely deviate from facts and/or contextual logic.
+LLMs are very capable of generating analytical and fluent as well as diverse and creative texts. But, there are places/situations where it has been known/seen to have generated output(s), while exercising its creative freedom, that completely deviate from facts and/or contextual logic.
 
 LLMs are trained on general knowledge, so if you ask it about something specific such as opening and closing hours of a particular restaurant, it will give you a generic/generalized answer instead of a specific one. Your favourite restaurant might be opening at 11 A.M. but the LLM might say that it's 8 A.M. Answers are provided on the basis of extensive training data (general knowledge) unlike chatbots, that contain specific information regarding a particular topic/entity. **LLMs hallucinate**.
 
