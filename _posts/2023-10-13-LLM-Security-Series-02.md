@@ -65,7 +65,7 @@ Indirect Prompt Injection is a prompt injection attack that is launched towards 
 <br>
 <center>
 	<figure>
-		<img style="width: 400px; height: 400px;" src="/static/images/indirect-prompt-injection.png"/>
+		<img style="width: 480px; height: 480px;" src="/static/images/indirect-prompt-injection.png"/>
 		<figcaption>Indirect Prompt Injection</figcaption>
 	</figure>
 </center>

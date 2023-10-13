@@ -1,5 +1,5 @@
 ---
-title: "LLM Security Series: Nuts and Bolts"
+title: "LLM Security Series - Nuts and Bolts"
 layout: post
 categories: AI
 tags: [llm]
