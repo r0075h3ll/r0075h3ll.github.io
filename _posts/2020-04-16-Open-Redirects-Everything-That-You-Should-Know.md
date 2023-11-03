@@ -9,7 +9,8 @@ date: 2020-04-16 10:18:00
 Hey There! In this post I'll be explaining everything that is necessary for a layman(not really) to understand Open Redirects. Let's start!
 
 
-### Introduction
+Introduction
+---
 
 > Open Redirect or Open Redirection is a situation in which a website redirects or sends the user to another website by taking parameter value as the destination. 
 
@@ -19,7 +20,8 @@ Example:
 - parameter value : : `http://www.google.com`
 - destination(the website to which you will be redirected) : : `http://www.google.com`
 
-### Javascript based redirections
+Javascript based redirections
+---
 
 The URL will send you or redirect you to `http://www.google.com`. Now, let's take a look at the code which is the cause of our redirection.
 
@@ -35,7 +37,8 @@ What's happening is that, the code is taking the parameter value from the URL wh
 
 **Note:** When you're trying to fuzz the parameters, remember that Javascript Based Redirections give you `200` and not `3xx` as the response code. Also, it's usefulness is only restricted to DOM XSS.
 
-### Header based redirections
+Header based redirections
+---
 
 Header Based Redirections are the redirections triggered by the server side scripts written in php, java, etc. And, this redirection is the OG as it gives `3xx` as the response code and it can be uplifted to make SSRFs work.
 
@@ -48,7 +51,8 @@ As usual, the parameter value is getting stored into the location header which l
 
 Functionalities you should look upto(while hunting for Open Redirects): login, signup, register & logout.
 
-### Meta refresh redirections
+Meta refresh redirections
+---
 
 Meta Refresh Redirection is a client side redirection. It occurs within your browser and requires no server side interaction. Meta tags are inserted into the head tag.
 ```html
@@ -61,7 +65,8 @@ The above meta tag, if inserted in a HTML document, will redirect to `http://www
 
 <br>
 
-### List of quality bypasses
+List of quality bypasses
+---
 
 Here’s a short list of payloads that I’ve collected, after going through some HackerOne reports and using them on different targets:
 
@@ -78,7 +83,8 @@ Here’s a short list of payloads that I’ve collected, after going through som
 - `。/www.google.com`
 
 
-### Dorks and parameter names
+Dorks and parameter names
+---
 
 Some useful google dorks:
 

@@ -12,7 +12,8 @@ This post can be considered as a 101 guide to few concepts, which are
 - Reverse engineering electron applications
 - Commonly exploited misconfigurations
 
-### Introduction
+Introduction
+---
 
 Browser, that's something you are using right now to read this article, but how is this working, how does some symbolic stuff come together to form something that looks cool(or boring maybe). You see, browser is something, in an abstract way, that fetches and displays the content you requested, and for doing that it comes with following components:
 - Rendering engine : Figures out how to display the requested content
@@ -21,7 +22,7 @@ Browser, that's something you are using right now to read this article, but how 
 - Networking : Performing network related operations to fetch and send data
 - Data Storage : Storing cookies
 
-#### Types of process
+### Types of process
 
 Talking about modern web browsers, they primarily, have got three types of process: 
 - Main/browser process
@@ -30,7 +31,7 @@ Talking about modern web browsers, they primarily, have got three types of proce
 
 The main process mainly handles functions such as window creation and management, storage related stuff(such as cookie storage), networking, etc. Renderer processes looks over the frontend part, like parsing HTML and CSS, decoding images, etc. and the Plugin process literally contains the plug-ins in it.
 
-#### Multi-process architecture
+### Multi-process architecture
 
 At one time, a single evil web app was enough to crash a browser, because all of it was managed by a single process and thus making it a perfect target for attackers, as crashing a single tab successfully would make other things go ham as well. Presently, each tab on your browser is managed by separate renderer process, so even if a web page acts suspicious and hangs up on you, you can still operate on the other tabs. This comes with an advantage and a disadvantage as well.
 
@@ -38,7 +39,8 @@ At one time, a single evil web app was enough to crash a browser, because all of
 Each process in a computer has got its own private memory space and resources, which isn't shared. This makes the program, which is getting executed, secure from any outer interventions, this is also called Sandboxing. However, this also increases the overall memory consumption, because for each tab a separate renderer process is being created. This procedure of process creation/management is mainly followed by Chrome and Chromium.
 
 
-### Electron
+Electron
+---
 
 > Electron is a runtime framework that facilitates cross-platform desktop application development by using HTML, CSS and JavaScript. It uses **Node.js** for backend and **libchromiumcontent** from Chromium for rendering(frontend).
 
@@ -54,7 +56,8 @@ How does an Electron app use system functionalities(like reading/writing into fi
 
 Preload scripts contain code that runs in renderer [context](https://blog.kevinchisholm.com/javascript/context-object-literals/) before the web app's code. These scripts have higher privileges since they've access to Node.js APIs.
 
-### Reverse engineering electron applications
+Reverse engineering electron applications
+---
 
 Electron applications come packed in **asar** format, which is basically a simple TAR like format. In order to get the source code of an application, you'll have to extract a particular asar file. The process can be broken down into following steps:
 
@@ -72,7 +75,8 @@ cd discord-app
 
 Reference : [Adventures in Hacking Electron Apps](https://dev.to/essentialrandom/adventures-in-hacking-electron-apps-3bbm)
 
-### Misconfigurations
+Misconfigurations
+---
 
 The first step towards finding a vulnerability(after extracting the .asar file) is to find a place to search for, basically finding an entry point is your next task. Mostly, you will find package.json which acts like a configuration file for the application. Below is a snippet of [package.json](https://github.com/MrH4r1/Electro-XSS) to give you an about what kind of information it contains:
 
@@ -100,7 +104,7 @@ The **main** field in above snippet, points to the start-up script of the applic
 - nodeIntegration : allows application to access Node.js APIs to work with system components
 - contextIsolation : separates/isolates Electron's internal logic and preload script from the actual application code
 
-#### Node Integration
+### Node Integration
 
 This basically allows the renderer process to use Node.js APIs to use the wide range of system functionalities it offers, like arbitrary file read/write, creating child processes, execution of binary files, performing network related operations. Enabling this will give the client side scripts access to system wide functionalities.
 
@@ -123,7 +127,7 @@ Let's consider a scenario where an app is vulnerable to XSS. Because it is vulne
 <img src=x onerror=alert(require('child_process').exec('xcalc'))> //a simple payload to pop a calculator
 ```
 
-#### Context Isolation
+### Context Isolation
 
 Context Isolation is another attribute in Electron that runs preload scripts and Electron's internal logic in a separate context. Preload scripts have access to Node.js modules and therefore the misconfiguration will lead to app(running in renderer process) getting access to APIs accessible by preload script(s). Below is the snippet that has got contextIsolation set to *false*:
 
@@ -138,7 +142,8 @@ const MainWindow = new BrowserWindow({
 ```
 Attackers can use this misconfig to completely change the application functionality.
 
-### Conclusion
+Conclusion
+---
 
 This was just a "little" glimpse of the world of desktop applications made with Electron. Electron has already implemented a couple of security measures, for example nodeIntegration is set to *false* and contextIsolation is set to *true* by default, thus preventing plain attack vectors beforehand. Nevertheless, the implemented defenses are not foolproof so far, researchers are still finding new attack vectors every now-and-then.
 
