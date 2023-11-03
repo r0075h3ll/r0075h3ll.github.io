@@ -13,7 +13,9 @@ As the title suggests, I am going to publish a series of blog posts discussing a
 
 Let's get started.
 
-### The formula: what is it made of
+The formula: what is it made of
+---
+
 LLM or Large Language Model is basically a Machine Learning model that's based on transformer. Transformer is a special Neural Network architecture and its idea was proposed by Google Brain team(Google) in 2017. It's a primary feature (and function) of any LLM to understand and generate natural language(s) in the same way humans can do it. Before transformers, RNNs (Recurrent Neural Network) were used to perform language processing related tasks, but it has certain drawbacks because of which they were discarded:
 1. Slow
 2. Hard to train
@@ -27,10 +29,10 @@ Also, RNNs face this issue called vanishing gradient when working with long sequ
 
 
 Transformer is equipped with following mechanisms that made it replace RNN for natural language understanding and generation related tasks:
-#### Positional Encoding
+### Positional Encoding
 Earlier, with RNNs, the information about the order of the words in the sequence was stored in the NN itself. With positional encoding, we now store the information about the order of word in a sequence in form of vector. Words in the sequence are converted into vectors(a list of numerical values that preserve the semantics) according to their context(Positional Embedding). The information about the order of the words/tokens in a sequence is now contained in the sequence itself, instead of storing it inside the NN, thus boosting up the performance of the model.
 
-#### Self-Attention
+### Self-Attention
 Attention is a mechanism that is used in order to focus more on specific parts of the input sequence. Because of the training, the model knows what words it should be focusing more on, and accordingly, weights are assigned to each of the word in the sequence. Self-Attention is when the Attention is turned towards the input sequence completely, in order to develop greater understanding of words in context to other words in the sequence. 
 
 <center>
@@ -44,7 +46,8 @@ Without self-attention, the translated text will lose some context and meaning.
 
 
 
-### The black box: how does it work
+The black box: how does it work
+---
 
 People think of LLMs as some higher intelligence, that when provided with a prompt (input text), it applies reasoning, calculations and algorithms to it in order to figure out the response/answer. Reality stands 10 miles away from where they've been wandering with their notions. 
 
@@ -76,7 +79,8 @@ Now, depending upon certain parameters, token will be selected and returned to t
 
 > You can tinker around with these parameters in [Open AI Playground](https://platform.openai.com/playground)
 
-### The error: where does it lack
+The error: where does it lack
+---
 
 LLMs are very capable of generating analytical and fluent as well as diverse and creative texts. But, there are places/situations where it has been known/seen to have generated output(s), while exercising its creative freedom, that completely deviate from facts and/or contextual logic.
 
@@ -99,7 +103,7 @@ Here are some publicly available encounters of ChatGPT hallucinating:
 
 That was all for this post. Meet you in the next one.
 
-#### References
+### References
 
 1. Attention Is All You Need: [https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf](https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf)
 2. LLM Parameters Demystified: Getting The Best Outputs from Language AI: [https://txt.cohere.com/llm-parameters-best-outputs-language-ai/](https://txt.cohere.com/llm-parameters-best-outputs-language-ai/)

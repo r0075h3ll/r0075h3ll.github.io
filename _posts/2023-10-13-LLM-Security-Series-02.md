@@ -12,7 +12,8 @@ If you're new to this, I would suggest you to go through the [first](https://r00
 
 Let's dive in!
 
-### Enterprise outlook
+Enterprise outlook
+---
 
 In an enterprise environment, LLM is categorized into following types
 1. Consumer LLM: deals with public/general data
@@ -25,7 +26,8 @@ Categorization is done on the basis of the target users i.e. the group of people
 With the surge in the users of ChatGPT and other GPT based applications, there's also an increase in the number of applications that use LLM in some way or the other to provide a particular functionality/feature; **LLM Integrated Applications**. These may be general purpose applications such as note-taking apps, productivity apps, or it can be something that is specifically designed to serve a particular industry such as a music production application, health tracking application, application that teaches you programming, AI agent that assists you in managing your mail account, etc.
 
 
-### The data-instruction equation
+The data-instruction equation
+---
 
 The mere thought that an AI assistant has access to your mail account, and by sending prompts to your assistant, you can perform various operations such as sending a mail, deleting mail(s) received from a particular mail address, summarizing the content inside of mails, etc. seems like it is something that everyone should have at their disposal. Dissemination has started already, we can see quite an inundation of LLM Integrated Applications in the market.
 
@@ -47,7 +49,7 @@ Based upon the adversary's interest(s), Prompt Injection attack can be classifie
 2. Indirect Prompt Injection
 
 
-#### Prompt Injection
+### Prompt Injection
 
 > A prompt is simply an instruction written in any language. By supplying prompt(s) is how someone can specify the result/response that they want from a LLM. 
 
@@ -58,7 +60,7 @@ A simple scenario would be when the attack is directed towards the underlying in
 - Divulge system prompts; set of rules or instructions that are followed by the LLM in order to facilitate content generation in a confined manner. Upon being exposed, these rules can give, the attacker, a lot regarding the internal workings of the LLM and thus further helping them to launch more novel attacks.
 
 
-#### Indirect Prompt Injection
+### Indirect Prompt Injection
 
 Indirect Prompt Injection is a prompt injection attack that is launched towards user(s) of LLM Integrated Application(s). Attacker delivers their crafted malicious prompts to their target's LLM to achieve a particular goal.
 
@@ -90,7 +92,7 @@ Here's a taxonomy of potential tactical goals that can be achieved using aforesa
  - **Availability Disruption** - LLM can be tricked into running resource extensive task(s) in the background in due course launching a DoS attack, thus making the service unavailable to other users.
 
 
-#### Unilateral defense
+### Unilateral defense
 
 The threats in the ecosystem can be categorized, in an abstract way, into following categories:
 1. Flexibility of behavior and functionalities: the agent can be steered by plain and simple prompts
@@ -107,7 +109,8 @@ Here are some intriguing and insinuating instances of researchers tinkering with
 
 Given that this tech is still in its early development stage and new plugins and tools are coming up on a regular basis, the attack surface is also augmented as you're reading this.
 
-### Solutions
+Solutions
+---
 
 Following are some of state-of-the-art for defending against Prompt Injections:
 - LLM as a proxy or reverse proxy, to curb on I/O of the model, like rebuff.
@@ -121,7 +124,7 @@ It is quite difficult to say if we're going to see any concrete defense mechanis
 
 That's all for this post, see you in the next one!
 
-#### References
+### References
 
 1. Not what you’ve signed up for: Compromising Real-World
 LLM-Integrated Applications with Indirect Prompt Injection: [https://arxiv.org/pdf/2302.12173.pdf](https://arxiv.org/pdf/2302.12173.pdf)

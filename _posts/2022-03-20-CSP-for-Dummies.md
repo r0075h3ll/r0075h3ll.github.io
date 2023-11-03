@@ -10,7 +10,8 @@ Ah, I am writing this post after 2 years of writing my first one, procrastinatio
 1. How CSP works
 2. Bypassing CSP
 
-### Introduction
+Introduction
+---
 
 Content Security Policy is a browser security mechanism that can be used as a second line of defense against code injection attacks such as XSS, ClickJacking, etc. Content Security Policy works on whitelist based mechanism which means it maintains a list of sources from which the application is allowed to access/import resources like scripts, plugins, images, data, etc. 
 
@@ -23,7 +24,8 @@ Web Applications can impose Content Security Policy by:
 - HTML Meta Tag
 	- `<meta http-equiv="Content-Security-Policy" content="default-src 'self'">`
 
-### Implementation
+Implementation
+---
 
 As I said, Content Security Policy can also be implemented by issuing response header(s) and thus understanding those headers will let us see what can go wrong in certain situations and how can attackers exploit that. 
 
@@ -33,7 +35,7 @@ Content Security Policy does stuff by using directives, a directive is just a co
 - object-src: 'none'
 - image-src: https:
 
-#### Explaination
+### Explaination
 
 | Resource Type | Attribute | Description |
 | :---:       | :---:   | :---   |
@@ -44,7 +46,8 @@ Content Security Policy does stuff by using directives, a directive is just a co
 
 You can find more directives [here](https://content-security-policy.com/)
 
-### Exploitation
+Exploitation
+---
 
 Till now, we saw some examples that gave us a basic idea about how directives in CSP come along to protect the application and/or users. It's time we should jump onto the part where analysis of directives will lead to exploration of possible vulnerablities.
 
@@ -53,7 +56,8 @@ Till now, we saw some examples that gave us a basic idea about how directives in
  - Nonce
  - JSONP attack
 
-### Using unsafe attributes and/or directives
+Using unsafe attributes and/or directives
+---
 
 So, directives are the building blocks of CSP and getting them wrong will lead to take down of the whole wall of security. In CSP, there are certains attributes that've already been flagged **unsafe** because assigning them to directives simply makes the application as vulnerable as it was without CSP. Some of these attributes and directives are:
 - unsafe-inline
@@ -82,7 +86,8 @@ bypass: <script src="data:;base64,WFNTCg=="></script>
 <script src="/hello.js"></script> <!-- this sets location to http://www.google.com/hello.js as the base URL is set to http://www.google.com !>
 ```
 
-### Nonce
+Nonce
+---
 
 Nonce is just a long string of random characters. Inline scripts are by default blocked in a page by CSP, but sometimes it is a necessity to use inline script(s) and using Nonce allows developers to do so in a secure way. In order to inject an inline script, **nonce** attribute must be set in the script element.
 
@@ -108,7 +113,8 @@ https://www.google.com/hey.php?id=1
 ```
 **id** parameter in the given URL is user controllable, and to achieve code injection the attacker only needs to replace the parameter's value with a valid payload.
 
-### JSONP attack
+JSONP attack
+---
 
 JSONP stands for JSON with Padding, it is basically a method that developers back in the day used to send cross-origin information when CORS was not there yet. Say, we need to fetch some data from an API using JS, following snippet can do the work - 
 
@@ -130,7 +136,8 @@ A payload to trigger XSS in this scenario shall be:
 <script src="https://siteHostingJsonP.com/jsonp?callback=alert('bypass')">
 ```
 
-### Conclusion
+Conclusion
+---
 
 Code injections attacks like XSS, Clickjacking, etc. have catastrophic impact on the application(s) and user(s) as well. Therefore, it is important to understand that CSP is not a thing to fully rely upon as it only prevents malicious scripts from getting executed, thus acting as a second line of defense.
 
