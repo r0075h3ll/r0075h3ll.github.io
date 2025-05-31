@@ -109,19 +109,11 @@ Queries can be constructed based upon the provided search operators of the searc
 2. Censys - [https://github.com/thehappydinoa/awesome-censys-queries](https://github.com/thehappydinoa/awesome-censys-queries)
 3. Google - [https://www.hackers-arise.com/post/2016/07/05/scada-hacking-finding-vulnerable-scada-systems-using-google-hacking](https://www.hackers-arise.com/post/2016/07/05/scada-hacking-finding-vulnerable-scada-systems-using-google-hacking)
 
-<figure>
-	<center>
-		<img class="zoom" style="width: 750px; height: auto;" src="/static/images/shodan.png"/>
-		<figcaption>Shodan</figcaption>
-	</center>
-</figure>
+![Shodan search interface](/static/img/shodan.png)
+*Shodan*
 
-<figure>
-	<center>
-		<img class="zoom" style="width: 750px; height: auto;" src="/static/images/censys.png"/>
-		<figcaption>Censys</figcaption>
-	</center>
-</figure>
+![Censys search interface](/static/img/censys.png)
+*Censys*
 
 Conclusion
 ---

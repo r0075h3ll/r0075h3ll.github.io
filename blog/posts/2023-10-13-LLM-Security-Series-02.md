@@ -67,14 +67,8 @@ A simple scenario would be when the attack is directed towards the underlying in
 
 Indirect Prompt Injection is a prompt injection attack that is launched towards user(s) of LLM Integrated Application(s). Attacker delivers their crafted malicious prompts to their target's LLM to achieve a particular goal.
 
-<br>
-<center>
-	<figure>
-		<img style="width: 480px; height: auto;" src="/static/images/indirect-prompt-injection.png"/>
-		<figcaption>Indirect Prompt Injection</figcaption>
-	</figure>
-</center>
-<br>
+![Indirect Prompt Injection](/static/img/indirect-prompt-injection.png)
+*Indirect Prompt Injection*
 
 The delivery methods of malicious prompts can be:
 1. **Active**: 
