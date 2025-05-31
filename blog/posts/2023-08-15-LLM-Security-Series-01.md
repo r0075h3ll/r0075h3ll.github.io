@@ -37,16 +37,10 @@ Earlier, with RNNs, the information about the order of the words in the sequence
 #### Self-Attention
 Attention is a mechanism that is used in order to focus more on specific parts of the input sequence. Because of the training, the model knows what words it should be focusing more on, and accordingly, weights are assigned to each of the word in the sequence. Self-Attention is when the Attention is turned towards the input sequence completely, in order to develop greater understanding of words in context to other words in the sequence. 
 
-<center>
-	<figure>
-		<img style="width: 380px; height: 380px;" src="/static/gifs/enc-dec.gif"/>
-		<figcaption>Translation of input sequence (English to Hindi)</figcaption>
-	</figure>
-</center>
-
 Without self-attention, the translated text will lose some context and meaning.
 
-
+![Translation of input sequence (English to Hindi)](/static/gif/enc-dec.gif)
+*Translation of input sequence (English to Hindi)*
 
 ### The black box: how does it work
 
@@ -67,11 +61,8 @@ The output generated(in the backend) is made up of two things:
 2. Probability
 
 Assuming that each word in the sequence will be considered as a token, following image envisages what the generated output might look like: 
-<figure>
-	<center>
-		<img style="width: 700px; height: auto;" src="/static/images/token-prob.png"/>
-	</center>
-</figure>
+
+![Token Probability Distribution](/static/img/token-prob.png)
 
 Now, depending upon certain parameters, token will be selected and returned to the user as the final output. Following are some of those parameters:
 - Temperature: A parameter that can be used to control the creative aspect of the transformer. If set high, it will be selecting such tokens that have a high chances(probability value) of following a particular sequence/statement.
