@@ -140,14 +140,14 @@ A payload to trigger XSS in this scenario shall be:
 Code injections attacks like XSS, Clickjacking, etc. have catastrophic impact on the application(s) and user(s) as well. Therefore, it is important to understand that CSP is not a thing to fully rely upon as it only prevents malicious scripts from getting executed, thus acting as a second line of defense.
 
 You can consider following resources to dig deeper into this topic:
-- [Content Security Policy](https://blog.sucuri.net/2018/04/content-security-policy.html)
-- [What is Content Security Policy \| Header Examples](https://www.imperva.com/learn/application-security/content-security-policy-csp-header/)
-- [CSP ODDITIES](http://conference.hitb.org/hitbsecconf2016ams/wp-content/uploads/2015/11/)
-- [CSP Best Practices](https://research.nccgroup.com/wp-content/uploads/2020/07/csp_best_practices.pdf)
+- <a href="https://blog.sucuri.net/2018/04/content-security-policy.html">Content Security Policy</a>
+- <a href="https://www.imperva.com/learn/application-security/content-security-policy-csp-header/">What is Content Security Policy | Header Examples</a>
+- <a href="http://conference.hitb.org/hitbsecconf2016ams/wp-content/uploads/2015/11/">CSP ODDITIES</a>
+- <a href="https://research.nccgroup.com/wp-content/uploads/2020/07/csp_best_practices.pdf">CSP Best Practices</a>
 
 Also, instead of manually analyzing headers, you can use tools like:
-- [CSP Evaluator](https://csp-evaluator.withgoogle.com/)
-- [Content Security Policy (CSP) Validator](https://cspvalidator.org/#url=https://cspvalidator.org/)
+- <a href="https://csp-evaluator.withgoogle.com/">CSP Evaluator</a>
+- <a href="https://cspvalidator.org/#url=https://cspvalidator.org/">Content Security Policy (CSP) Validator</a>
 
 
 That's all for this post, meet you in another one, bye.
