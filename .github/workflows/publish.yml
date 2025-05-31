@@ -1,0 +1,23 @@
+name: Publish Blog Post
+
+on:
+  workflow_dispatch:
+    inputs:
+      blog-file:
+        description: "Blog in markdown format to publish"
+        required: true
+
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: raunakgurud09/hashnode-publish@v0.0.1
+        id: hashnode_publish
+        with:
+          host: "r0075h3ll.hashnode.dev"
+          file: ${{ inputs.blog-file }}
+          hashnode_key: ${{ secrets.HASHNODE_KEY }}
+      - name: Get get output
+        run: echo "${{steps.hashnode_publish.outputs.result_json}} length ${{steps.hashnode_publish.outputs.result_summary}}"
