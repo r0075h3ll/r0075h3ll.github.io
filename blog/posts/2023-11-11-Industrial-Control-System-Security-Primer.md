@@ -2,7 +2,7 @@
 title: "How secure are the industries?"
 description: A comprehensive primer on Industrial Control System security, covering SCADA, PLC, DCS, and potential threats
 slug: industrial-control-system-security-primer
-tags: ICS, SCADA, DCS, PLC, security
+tags: security
 domain: r0075h3ll.hashnode.dev
 publish: true
 enableToc: true
