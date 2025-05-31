@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: raunakgurud09/hashnode-publish@v0.0.1
+      - uses: raunakgurud09/hashnode-publish@v1.1
         id: hashnode_publish
         with:
           host: "r0075h3ll.hashnode.dev"
