@@ -1,3 +1,1 @@
-<script>
-    window.location = "https://r0075h3ll.hashnode.dev";
-</script>
+Blog has been moved to [r0075h3ll.hashnode.dev](https://r0075h3ll.hashnode.dev)
