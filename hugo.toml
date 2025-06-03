@@ -1,4 +1,4 @@
-baseurl = "r0075h3ll.github.io"
+baseurl = "/"
 title = "r0075h3ll"
 theme = "hugo-coder"
 languagecode = "en"
