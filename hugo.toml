@@ -1,0 +1,77 @@
+baseurl = "/"
+title = "r0075h3ll"
+theme = "hugo-coder"
+languagecode = "en"
+defaultcontentlanguage = "en"
+
+
+[pagination]
+pagerSize = 10
+
+[services]
+[services.disqus]
+shortname = ""
+
+[markup.highlight]
+style = "github-dark"
+
+[params]
+  author = "Hardik Nanda"
+  #info = "Security Engineer"
+  description = ""
+  keywords = "blog,developer,personal"
+  #avatarurl = "/images/avatar.jpg"
+  gravatar = "hnanda21@gmail.com"
+
+  faviconSVG = "/img/favicon.svg"
+  favicon_32 = "/img/favicon-32x32.png"
+  favicon_16 = "/img/favicon-16x16.png"
+
+  since = 2019
+
+  enableTwemoji = true
+
+  colorScheme = "dark"
+  hidecolorschemetoggle = true
+
+  # customCSS = ["css/custom.css"]
+  # customSCSS = ["scss/custom.scss"]
+  # customJS = ["js/custom.js"]
+
+[taxonomies]
+  category = "categories"
+  series = "series"
+  tag = "tags"
+  author = "authors"
+
+# Social links
+[[params.social]]
+  name = "Github"
+  icon = "fa-brands fa-github fa-2x"
+  weight = 1
+  url = "https://github.com/r0075h3ll/"
+[[params.social]]
+  name = "Twitter"
+  icon = "fa-brands fa-x-twitter fa-2x"
+  weight = 3
+  url = "https://twitter.com/r0075h3ll"
+[[params.social]]
+  name = "LinkedIn"
+  icon = "fa-brands fa-linkedin fa-2x"
+  weight = 3
+  url = "https://linkedin.com/in/r0075h3ll"
+[[params.social]]
+  name = "Email"
+  icon = "fa fa-envelope fa-2x"
+  weight = 3
+  url = "mailto:hnanda21@gmail.com"
+
+# Menu links
+[[menu.main]]
+  name = "Blog"
+  weight = 1
+  url  = "https://r0075h3ll.hashnode.dev"
+[[menu.main]]
+  name = "About"
+  weight = 2
+  url = "about/"
