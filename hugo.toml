@@ -62,7 +62,7 @@ style = "github-dark"
   url = "https://linkedin.com/in/r0075h3ll"
 [[params.social]]
   name = "Email"
-  icon = "fa fa-envelope-o fa-2x"
+  icon = "fa fa-id-card fa-2x"
   weight = 3
   url = "mailto:hnanda21@gmail.com"
 
