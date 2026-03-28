@@ -1,0 +1,80 @@
+@import url('https://fonts.bunny.net/css?family=inter:300,400,500,600,700|jetbrains-mono:300,400,500,600');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --bg: #0A0A0A;
+  --ink: #FFFFFF;
+  --line: #1F1F1F;
+  --accent: #00FF00; /* Neon Green for security feel */
+  --accent-glow: rgba(0, 255, 0, 0.2);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Technical Grid Background */
+.grid-bg {
+  background-image: 
+    linear-gradient(to right, var(--line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Scanline Effect */
+.scanline {
+  width: 100%;
+  height: 100px;
+  z-index: 99;
+  background: linear-gradient(0deg, rgba(0, 255, 0, 0) 0%, rgba(0, 255, 0, 0.05) 50%, rgba(0, 255, 0, 0) 100%);
+  opacity: 0.1;
+  position: absolute;
+  top: -100px;
+  animation: scanline 10s linear infinite;
+}
+
+@keyframes scanline {
+  0% { top: -100px; }
+  100% { top: 100%; }
+}
+
+/* Technical grid borders */
+.tech-border {
+  border: 1px dashed var(--line);
+}
+
+.tech-border-solid {
+  border: 1px solid var(--line);
+}
+
+/* Glow effect for active elements */
+.glow-on-hover:hover {
+  box-shadow: 0 0 20px var(--accent-glow);
+  border-color: var(--accent);
+}
+
+/* Custom scrollbar for technical feel */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
