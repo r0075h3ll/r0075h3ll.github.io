@@ -10,6 +10,7 @@ export default function App() {
         <Experience />
         <Focus />
         <Projects />
+        <Writing />
         <Certifications />
         <Contact />
       </main>
@@ -29,7 +30,7 @@ function Header() {
           <a href="#focus" className="hover:text-[#111111] transition-colors">Focus</a>
           <a href="#work" className="hover:text-[#111111] transition-colors">Work</a>
           <a href="#certifications" className="hover:text-[#111111] transition-colors">Certifications</a>
-          <a href="https://r0075h3ll.hashnode.dev" target="_blank" rel="noopener noreferrer" className="hover:text-[#111111] transition-colors">Blog</a>
+          <a href="#writing" className="hover:text-[#111111] transition-colors">Writing</a>
           <a href="#contact" className="hover:text-[#111111] transition-colors">Contact</a>
         </div>
       </nav>
@@ -219,6 +220,48 @@ function Projects() {
               <ExternalLink className="w-3.5 h-3.5 text-[#6B6B6B] opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <p className="text-[#6B6B6B] leading-relaxed mt-1">{project.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+const POSTS = [
+  {
+    title: "Hacking Electron Applications 101",
+    link: "https://r0075h3ll.hashnode.dev/hacking-electron-applications-101"
+  },
+  {
+    title: "Content Security Policy for Dummies",
+    link: "https://r0075h3ll.hashnode.dev/content-security-policy-for-dummies"
+  },
+  {
+    title: "Open Redirects: Everything That You Should Know",
+    link: "https://r0075h3ll.hashnode.dev/open-redirects-everything-that-you-should-know"
+  }
+];
+
+function Writing() {
+  return (
+    <section id="writing" className="max-w-3xl mx-auto px-6 py-16 border-t border-[#E5E3DE]">
+      <div className="flex flex-wrap items-end justify-between gap-4 mb-6">
+        <h2 className="text-sm font-medium text-[#B4491D]">Writing</h2>
+        <a href="https://r0075h3ll.hashnode.dev" target="_blank" rel="noopener noreferrer" className="text-sm text-[#6B6B6B] hover:text-[#111111] transition-colors">
+          All posts
+        </a>
+      </div>
+      <div className="space-y-4">
+        {POSTS.map(post => (
+          <a
+            key={post.link}
+            href={post.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-between gap-2"
+          >
+            <h3 className="font-medium group-hover:text-[#B4491D] transition-colors">{post.title}</h3>
+            <ExternalLink className="w-3.5 h-3.5 text-[#6B6B6B] opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
           </a>
         ))}
       </div>
