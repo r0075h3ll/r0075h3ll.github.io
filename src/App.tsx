@@ -1,4 +1,4 @@
-import { Github, Twitter, Linkedin, ExternalLink } from "lucide-react";
+import { Github, Twitter, Linkedin, Rss, ExternalLink } from "lucide-react";
 
 export default function App() {
   return (
@@ -29,6 +29,7 @@ function Header() {
           <a href="#focus" className="hover:text-[#111111] transition-colors">Focus</a>
           <a href="#work" className="hover:text-[#111111] transition-colors">Work</a>
           <a href="#certifications" className="hover:text-[#111111] transition-colors">Certifications</a>
+          <a href="https://r0075h3ll.hashnode.dev" target="_blank" rel="noopener noreferrer" className="hover:text-[#111111] transition-colors">Blog</a>
           <a href="#contact" className="hover:text-[#111111] transition-colors">Contact</a>
         </div>
       </nav>
@@ -253,6 +254,9 @@ function Contact() {
         hnanda21@gmail.com
       </a>
       <div className="flex gap-6 mt-6 text-sm text-[#6B6B6B]">
+        <a href="https://r0075h3ll.hashnode.dev" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[#111111] transition-colors">
+          <Rss className="w-4 h-4" /> Blog
+        </a>
         <a href="https://github.com/r0075h3ll" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[#111111] transition-colors">
           <Github className="w-4 h-4" /> GitHub
         </a>
