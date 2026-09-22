@@ -1,4 +1,5 @@
-import { Github, Twitter, Linkedin, Rss, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { Github, Twitter, Linkedin, Rss, ExternalLink, Menu, X } from "lucide-react";
 
 export default function App() {
   return (
@@ -19,21 +20,52 @@ export default function App() {
   );
 }
 
+const NAV_LINKS = [
+  { href: "#about", label: "About" },
+  { href: "#experience", label: "Experience" },
+  { href: "#focus", label: "Focus" },
+  { href: "#work", label: "Work" },
+  { href: "#certifications", label: "Certifications" },
+  { href: "#writing", label: "Writing" },
+  { href: "#contact", label: "Contact" }
+];
+
 function Header() {
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 bg-[#FAFAF8]/90 backdrop-blur-sm border-b border-[#E5E3DE]">
       <nav className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
         <span className="font-medium tracking-tight">Hardik Nanda</span>
         <div className="hidden sm:flex items-center gap-6 text-sm text-[#6B6B6B]">
-          <a href="#about" className="hover:text-[#111111] transition-colors">About</a>
-          <a href="#experience" className="hover:text-[#111111] transition-colors">Experience</a>
-          <a href="#focus" className="hover:text-[#111111] transition-colors">Focus</a>
-          <a href="#work" className="hover:text-[#111111] transition-colors">Work</a>
-          <a href="#certifications" className="hover:text-[#111111] transition-colors">Certifications</a>
-          <a href="#writing" className="hover:text-[#111111] transition-colors">Writing</a>
-          <a href="#contact" className="hover:text-[#111111] transition-colors">Contact</a>
+          {NAV_LINKS.map(link => (
+            <a key={link.href} href={link.href} className="hover:text-[#111111] transition-colors">
+              {link.label}
+            </a>
+          ))}
         </div>
+        <button
+          onClick={() => setOpen(!open)}
+          className="sm:hidden p-1 -mr-1 text-[#111111]"
+          aria-label={open ? "Close menu" : "Open menu"}
+        >
+          {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
       </nav>
+      {open && (
+        <div className="sm:hidden border-t border-[#E5E3DE] px-6 py-4 flex flex-col gap-4 text-sm text-[#6B6B6B]">
+          {NAV_LINKS.map(link => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="hover:text-[#111111] transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      )}
     </header>
   );
 }
