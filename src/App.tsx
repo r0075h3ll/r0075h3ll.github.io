@@ -309,6 +309,11 @@ function Focus() {
 
 const PROJECTS = [
   {
+    title: "Toleman",
+    description: "Contributor to an open-source DevSecOps vulnerability management platform. Runs Semgrep, Trivy, Gitleaks, and gosec natively, with OSV.dev malicious package detection and GitHub App integration for automatic PR scanning.",
+    link: "https://github.com/toleman-platform/toleman-platform"
+  },
+  {
     title: "ChainWatch",
     description: "Supply chain security CLI that scans every repo in a GitHub org for compromised, malicious, or vulnerable package versions.",
     link: "https://github.com/r0075h3ll/ChainWatch"
