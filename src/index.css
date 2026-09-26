@@ -8,15 +8,28 @@
 :root {
   --bg: #FAFAF8;
   --ink: #111111;
+  --ink-soft: #333333;
   --muted: #6B6B6B;
   --line: #E5E3DE;
-  --accent: #B4491D; /* rust/terracotta accent */
+  --accent: #B4491D;
+  color-scheme: light;
+}
+
+:root.dark {
+  --bg: #121212;
+  --ink: #F2F0EC;
+  --ink-soft: #D8D6D1;
+  --muted: #9A9893;
+  --line: #2A2A28;
+  --accent: #E0793D;
+  color-scheme: dark;
 }
 
 body {
   background-color: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::-webkit-scrollbar {
