@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   Github, Twitter, Linkedin, Rss, ExternalLink, Menu, X, Sun, Moon, ArrowUp,
-  ShieldCheck, Bot, Radar, Cloud, GitPullRequest, Building2, Award
+  ShieldCheck, Bot, Radar, Cloud, SignalHigh, Building2, Award
 } from "lucide-react";
 import { SiPython, SiGo, SiCloudflare } from "react-icons/si";
 
@@ -284,9 +284,9 @@ const FOCUS_AREAS = [
     icon: <Cloud className="w-5 h-5" />
   },
   {
-    title: "Dependency Alert Triage",
-    description: "Reachability analysis to triage Dependabot alerts, cutting alert fatigue by roughly 50%.",
-    icon: <GitPullRequest className="w-5 h-5" />
+    title: "High-Signal Alert Prioritization",
+    description: "Reachability analysis that triages Dependabot alerts. In a 507-alert pilot, correctly triaged 500 with full agreement on hand-checked results, saved roughly 125 hours of analyst time, and surfaced 10 critical vulnerabilities buried in routine noise.",
+    icon: <SignalHigh className="w-5 h-5" />
   }
 ];
 
@@ -378,6 +378,10 @@ function Projects() {
 }
 
 const POSTS = [
+  {
+    title: "High Signal, High Impact: Scaling Dependency Security Efficiently",
+    link: "https://medium.com/fsmk-engineering/high-signal-high-impact-scaling-dependency-security-efficiently-5f0f6c05c5ac"
+  },
   {
     title: "Hacking Electron Applications 101",
     link: "https://r0075h3ll.hashnode.dev/hacking-electron-applications-101"
