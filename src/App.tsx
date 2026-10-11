@@ -340,6 +340,11 @@ const PROJECTS = [
     link: "https://github.com/toleman-platform/toleman-platform"
   },
   {
+    title: "SWAT",
+    description: "Finds typosquatting, lookalike, and semantically related domains that may impersonate a brand, using LLM-powered domain discovery and content analysis.",
+    link: "https://github.com/r0075h3ll/Swat"
+  },
+  {
     title: "ChainWatch",
     description: "Supply chain security CLI that scans every repo in a GitHub org for compromised, malicious, or vulnerable package versions.",
     link: "https://github.com/r0075h3ll/ChainWatch"
