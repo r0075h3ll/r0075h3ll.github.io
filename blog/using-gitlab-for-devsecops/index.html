@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Hardik Nanda" href="/rss.xml" />
+    <title>Using Gitlab for DevSecOps | Hardik Nanda</title>
+    <meta name="description" content="Basics of GitLab CI, and how to wire software composition analysis with vet into a pipeline." />
+    <link rel="canonical" href="https://r0075h3ll.github.io/blog/using-gitlab-for-devsecops" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Using Gitlab for DevSecOps | Hardik Nanda" />
+    <meta property="og:description" content="Basics of GitLab CI, and how to wire software composition analysis with vet into a pipeline." />
+    <meta property="og:url" content="https://r0075h3ll.github.io/blog/using-gitlab-for-devsecops" />
+    <meta property="og:image" content="https://r0075h3ll.github.io/blog/using-gitlab-for-devsecops.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="module" crossorigin src="/assets/index-vECcfkBC.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Dy0Zaf5E.css">
+  </head>
+  <body>
+    <div id="root"><article><h1>Using Gitlab for DevSecOps</h1><p>DevSecOps is an established - and now being adopted - philosophy that aims to foster collaboration between Developement, Security, and Operations teams in an Organization. Being an integral part of SDLC, security testing is something that has helped significantly in Software Developement Lifecycle to identify security risks at earlier stages, and thereby helping in more reliable and faster releases of a product.</p>
+<p>But, it is actually cumbersome for a pentester who is, let’s say, doing secure code review of a project - to run a code analysis tool each time. That is where software build tools such as Gitlab / Github / Jenkins / etc., can be used to automate this process of software supply chain risk assessment via finding and reporting security loopholes in the <strong>source code</strong> to identifying <strong>third-party</strong> and/or <strong>OSS</strong> components in use with known vulnerabilities.</p>
+<p>But, how do you get started? Let’s talk about</p>
+<ul>
+<li>Basics of Gitlab CI</li>
+<li>How to use Gitlab CI to implement DevSecOps</li>
+</ul>
+<h3>Introduction to Gitlab CI</h3>
+<p>Gitlab is a source code management platform based on git, that also provides a CI service to help automate things like build, performing test cases, deployment, etc., all of that using a pipeline defined in <code>.gitlab-ci.yml</code> file of a repository.</p>
+<p>A pipeline is simply a layout for a host machine to follow in order to complete a certain task. For e.g., take a car manufacturing factory - the way a car is built is by enforcing a certain serial set of instructions that the workers should follow to perform operations on different components in a manner that produces a deliverable vehicle.</p>
+<p>In a similar way, Gitlab CI can be used to setup a pipeline, consisting of commands that would build / test / deploy the application.</p>
+<p>Let’s consider a basic pipeline config, written in YAML syntax, for a project in Gitlab. It’ll look similar to this:</p>
+<pre><code class="hljs language-yaml"><span class="hljs-attr">stages:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">build_stage</span> 
+  <span class="hljs-bullet">-</span> <span class="hljs-string">test_stage</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">deploy_stage</span>
+
+<span class="hljs-attr">variables:</span>
+    <span class="hljs-attr">tool_name:</span> <span class="hljs-string">semgrep</span> <span class="hljs-string">//</span> <span class="hljs-string">global</span> <span class="hljs-string">variable</span>
+    <span class="hljs-attr">tool_version:</span> <span class="hljs-number">7.9</span> <span class="hljs-string">//</span> <span class="hljs-string">global</span> <span class="hljs-string">variable</span>
+
+<span class="hljs-attr">build_job:</span>
+  <span class="hljs-attr">stage:</span> <span class="hljs-string">build_stage</span>
+  <span class="hljs-attr">variables:</span>
+    <span class="hljs-attr">build_path:</span> <span class="hljs-string">some_path_location</span> <span class="hljs-string">//</span> <span class="hljs-string">local</span> <span class="hljs-string">variable</span>
+    <span class="hljs-attr">build_tool_name:</span> <span class="hljs-string">maven</span> <span class="hljs-string">//</span> <span class="hljs-string">local</span> <span class="hljs-string">variable</span>
+  <span class="hljs-attr">script:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">echo</span> <span class="hljs-string">&quot;Building the project...&quot;</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">mkdir</span> <span class="hljs-string">build</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">touch</span> <span class="hljs-string">build/${PROJECT_NAME}.jar</span>
+  <span class="hljs-attr">artifacts:</span>
+    <span class="hljs-attr">paths:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">build/</span>
+
+<span class="hljs-attr">test_job:</span>
+  <span class="hljs-attr">stage:</span> <span class="hljs-string">test_stage</span>
+  <span class="hljs-attr">script:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">echo</span> <span class="hljs-string">&quot;Running tests...&quot;</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">echo</span> <span class="hljs-string">&quot;Tests passed!&quot;</span>  <span class="hljs-comment"># Replace this with actual test commands</span>
+  <span class="hljs-attr">dependencies:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">build</span>
+
+<span class="hljs-attr">deploy_job:</span>
+  <span class="hljs-attr">stage:</span> <span class="hljs-string">deploy_stage</span>
+  <span class="hljs-attr">script:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">echo</span> <span class="hljs-string">&quot;Deploying the project...&quot;</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">echo</span> <span class="hljs-string">&quot;Deployment successful!&quot;</span>  <span class="hljs-comment"># Replace this with actual deployment commands</span>
+  <span class="hljs-attr">when:</span> <span class="hljs-string">manual</span></code></pre>
+<p>Some fundamental components required for a pipeline setup is: <strong>stages</strong>, <strong>jobs</strong>, <strong>script</strong>, <strong>rules</strong>, and <strong>variables</strong>.</p>
+<p><strong>Jobs</strong>, being a basic unit of pipeline, consist of a list of commands that are written under <strong>script</strong> key - you can think of jobs as functions that can be run based on certain conditions, and these conditions can be defined under <strong>rules</strong> key.</p>
+<p>Each job belongs to a stage, and there can be multiple stages inside of pipeline. <strong>Stages</strong> are used to define an order in which different jobs (functions) would run.</p>
+<p>Additionally, <strong>Variables</strong> are made available for a job to use - based on their scope i.e. global / local.</p>
+<p>Now, that we’ve looked into the basics of a pipeline setup in Gitlab, let’s see how this information can be leveraged to improve DevSecOps.</p>
+<h3>Improve SBOM analysis using Vet</h3>
+<p>Vet is a software composition analysis tool that helps developers and security engineers to identify vulnerabilities in their software supply chain.</p>
+<p>It is written in Go, and can be implemented in CI pipeline using:</p>
+<ul>
+<li>OS Package Manager</li>
+<li>Docker</li>
+<li>Go Package Manager (<code>go install</code>)</li>
+</ul>
+<p>A sample use-case for Vet would be to use it inside of your a custom container image to scan your project for any software supply chain security risks.</p>
+<pre><code class="hljs language-yaml"><span class="hljs-attr">stages:</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">build</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">vet</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">deploy</span>
+  
+  
+<span class="hljs-attr">build_job:</span>
+  <span class="hljs-attr">stage:</span> <span class="hljs-string">build</span>
+  <span class="hljs-attr">script:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">./gradle</span> <span class="hljs-string">cleanBuild</span>
+    
+<span class="hljs-attr">sca_vet_job:</span>
+  <span class="hljs-attr">stage:</span> <span class="hljs-string">vet</span>
+  <span class="hljs-attr">image:</span> <span class="hljs-string">golang:alpine</span>
+  <span class="hljs-attr">script:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">go</span> <span class="hljs-string">install</span> <span class="hljs-string">github.com/safedep/vet@latest</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">export</span> <span class="hljs-string">ENV=&quot;/go/bin:$PATH&quot;</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">vet</span> <span class="hljs-string">scan</span> <span class="hljs-string">-D</span> <span class="hljs-string">$(pwd/project-dir)</span> <span class="hljs-string">--report-path</span> <span class="hljs-string">$(pwd/project-dir/vet-report.md)</span>
+   <span class="hljs-attr">artifacts:</span>
+    <span class="hljs-attr">paths:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">./project-dir/vet-report.md</span>
+      
+<span class="hljs-attr">deploy:</span>
+  <span class="hljs-attr">stage:</span> <span class="hljs-string">deploy</span>
+  <span class="hljs-attr">script:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-string">echo</span> <span class="hljs-string">&quot;Deploying on Goole Cloud Engine&quot;</span></code></pre>
+<p><em>Source: <a href="https://gist.github.com/r0075h3ll/9b62a66297357451c125fa3748c12665">gist</a></em></p>
+<p>Based on your requirements, jobs can be configured to be executed based on different events/triggers i.e. push, merge requests, etc.</p>
+<blockquote>
+<p>🔎 Checkout <a href="https://docs.safedep.io">SafeDep</a> for more insights</p>
+</blockquote>
+<h3>Conclusion</h3>
+<p>A thorough risk assessment is required before integrating any third-party or OSS component into your project during build, compile, or run-time. On top of that, a fast paced project, in terms of functionalities, may seem intimidating for a researcher to analyze, and this is were automation tools and techniques make your life easy.</p>
+<p>Hit me up on <a href="https://x.com/r0075h3ll">X</a> for any kind of discussion, especially InfoSec :)</p>
+<p>See you in another post. Thanks for reading!</p>
+</article></div>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Hardik Nanda" href="/rss.xml" />
+    <title>Content Security Policy for Dummies | Hardik Nanda</title>
+    <meta name="description" content="How Content Security Policy works, which directives matter, and the common ways it gets bypassed." />
+    <link rel="canonical" href="https://r0075h3ll.github.io/blog/content-security-policy-for-dummies" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Content Security Policy for Dummies | Hardik Nanda" />
+    <meta property="og:description" content="How Content Security Policy works, which directives matter, and the common ways it gets bypassed." />
+    <meta property="og:url" content="https://r0075h3ll.github.io/blog/content-security-policy-for-dummies" />
+    <meta property="og:image" content="https://r0075h3ll.github.io/blog/content-security-policy-for-dummies.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="module" crossorigin src="/assets/index-vECcfkBC.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Dy0Zaf5E.css">
+  </head>
+  <body>
+    <div id="root"><article><h1>Content Security Policy for Dummies</h1><p>Ah, I am writing this post after 2 years of writing my first one, procrastination never hit me like that before. Anyways, without wasting much of your time, let&#39;s just get started with the topic. In this post, I&#39;ll elaborate two things:</p>
+<ol>
+<li>How CSP works</li>
+<li>Bypassing CSP</li>
+</ol>
+<h3>Introduction</h3>
+<p>Content Security Policy is a browser security mechanism that can be used as a second line of defense against code injection attacks such as XSS, ClickJacking, etc. Content Security Policy works on whitelist based mechanism which means it maintains a list of sources from which the application is allowed to access/import resources like scripts, plugins, images, data, etc.</p>
+<p>Web Applications can impose Content Security Policy by:</p>
+<ul>
+<li>Issuing certain HTTP response headers<ul>
+<li>X-Content-Security-Policy</li>
+<li>Content-Security-Policy</li>
+<li>X-WebKit-CSP</li>
+<li>Content-Security-Policy-Report-Only</li>
+</ul>
+</li>
+<li>HTML Meta Tag<ul>
+<li><code>&lt;meta http-equiv=&quot;Content-Security-Policy&quot; content=&quot;default-src &#39;self&#39;&quot;&gt;</code></li>
+</ul>
+</li>
+</ul>
+<h3>Implementation</h3>
+<p>As I said, Content Security Policy can also be implemented by issuing response header(s) and thus understanding those headers will let us see what can go wrong in certain situations and how can attackers exploit that.</p>
+<p>Content Security Policy does stuff by using directives, a directive is just a combination of resource type and attribute or it can be defined by mentioning the resource type and the attribute(s) (attributes indicate sources from where content can be loaded and/or executed of a particular resource type). If multiple directives have to be used at once, then a semicolon is used as delimiter. Following are some of the frequently used directives(with their attributes) in CSP:</p>
+<ul>
+<li>default-src: &#39;self&#39;</li>
+<li>script-src: &#39;unsafe-inline&#39;</li>
+<li>object-src: &#39;none&#39;</li>
+<li>image-src: https:</li>
+</ul>
+<h4>Explaination</h4>
+<div class="table-wrap"><table><thead><tr>
+<th>Resource Type</th>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead><tbody><tr>
+<td>default-src</td>
+<td>&#39;self&#39;</td>
+<td>&#39;default-src&#39; is used as a fallback option when the dev is too lazy to define sources for each resource type. &#39;self&#39; indicates that the website can only load resource(s) from the same origin.</td>
+</tr>
+<tr>
+<td>script-src</td>
+<td>&#39;unsafe-inline&#39;</td>
+<td>&#39;script-src&#39; defines location from where JS code can loaded, &#39;unsafe-inline&#39; imply that inline JS code can be loaded &amp; executed</td>
+</tr>
+<tr>
+<td>object-src</td>
+<td>&#39;none&#39;</td>
+<td>&#39;object-src&#39; defines sources from where plugins can be loaded, &#39;none&#39; here clearly states that plugins are not allowed</td>
+</tr>
+<tr>
+<td>image-src</td>
+<td>https:</td>
+<td>&#39;https:&#39; is a scheme and indicates that images should loaded from website that use &quot;https:&quot;</td>
+</tr>
+</tbody></table></div>
+<p>You can find more directives <a href="https://content-security-policy.com/">here</a></p>
+<h3>Exploitation</h3>
+<p>Till now, we saw some examples that gave us a basic idea about how directives in CSP come along to protect the application and/or users. It&#39;s time we should jump onto the part where analysis of directives will lead to exploration of possible vulnerablities.</p>
+<p>Developers find it complex to configure CSP and that&#39;s what causing most of the screw ups out there. Following are some of the places where the miss outs happen, thus paving a way for code injection attacks:</p>
+<ul>
+<li>Using unsafe attribute(s) and/or directives</li>
+<li>Nonce</li>
+<li>JSONP attack</li>
+</ul>
+<h3>Using unsafe attributes and/or directives</h3>
+<p>So, directives are the building blocks of CSP and getting them wrong will lead to take down of the whole wall of security. In CSP, there are certains attributes that&#39;ve already been flagged <strong>unsafe</strong> because assigning them to directives simply makes the application as vulnerable as it was without CSP. Some of these attributes and directives are:</p>
+<ul>
+<li>unsafe-inline</li>
+<li>unsafe-eval</li>
+<li>data:</li>
+<li>base-uri</li>
+</ul>
+<p><strong>unsafe-inline</strong> - It has been flagged unsafe cause it grants the application to execute inline scripts, which basically means that any JS code injected by the attacker would be executed by the application and this defeats the whole purpose of having a CSP in the first place.</p>
+<p><strong>unsafe-eval</strong> - There are certain functions &amp; constructors in JavaScript that are better of not being used; <strong>eval()</strong> is one of them. It can perform dynamic instructions by using input recieved from any user. Using <strong>unsafe-eval</strong> allows the application to use dynamic code evaluation which is not considered a good practice.</p>
+<p><strong>data:</strong> - This directive is used to grant developers permission to import data from base64 strings. Using this directive in combination with <strong>script-src &#39;unsafe-eval&#39;</strong> can lead to execution of attacker&#39;s injected code.</p>
+<p>An exploitable situation will look something like:</p>
+<pre><code class="hljs language-text">response header: Content-Security-Policy: script-src 'unsafe-eval' data: 'self'
+bypass: &lt;script src=&quot;data:;base64,WFNTCg==&quot;&gt;&lt;/script&gt;</code></pre>
+<p><strong>base-uri</strong> - This directive sets the base URL for the relative URLs that exist in a document. Absence of this directive will let the attacker set/inject the base URL ultimately granting access to tamper with files that are being served on the application.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">base</span> <span class="hljs-attr">href</span>=<span class="hljs-string">&quot;http://www.google.com&quot;</span> <span class="hljs-attr">target</span>=<span class="hljs-string">&quot;_blank&quot;</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/hello.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span> <span class="hljs-comment">&lt;!-- this sets location to http://www.google.com/hello.js as the base URL is set to http://www.google.com !&gt;</span></code></pre>
+<h3>Nonce</h3>
+<p>Nonce is just a long string of random characters. Inline scripts are by default blocked in a page by CSP, but sometimes it is a necessity to use inline script(s) and using Nonce allows developers to do so in a secure way. In order to inject an inline script, <strong>nonce</strong> attribute must be set in the script element.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">nonce</span>=<span class="hljs-string">&quot;r4nd0m455Ch4r5&quot;</span>&gt;</span><span class="language-javascript">
+    <span class="hljs-keyword">var</span> blah = <span class="hljs-string">&quot;DND&quot;</span>;
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<p>Following are some instances of misconfigs that an attacker can exploit:</p>
+<ul>
+<li>Same Nonce being used for multiple requests - Same Nonce can be used for multiple request, thus allowing attacker to inject inline scripts</li>
+<li>Predictable Nonce values - Values are not random, attacker can predict another valid Nonce and use that to inject inline scripts</li>
+<li>Outputting user/attacker controllable values inside Nonce protected script</li>
+</ul>
+<p>To understand the third bullet point, let&#39;s consider a scenario where we&#39;ve got an URL and a Nonce protected inline script:</p>
+<pre><code class="hljs language-text">https://www.google.com/hey.php?id=1
+
+&lt;script nonce=&quot;r4nd0m455Ch4r5&quot;&gt;
+    var id = #URL.id# //assigns the value of id parameter to this variable
+&lt;script&gt;</code></pre>
+<p><strong>id</strong> parameter in the given URL is user controllable, and to achieve code injection the attacker only needs to replace the parameter&#39;s value with a valid payload.</p>
+<h3>JSONP attack</h3>
+<p>JSONP stands for JSON with Padding, it is basically a method that developers back in the day used to send cross-origin information when CORS was not there yet. Say, we need to fetch some data from an API using JS, following snippet can do the work -</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;http://google.com/api/v1/users&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<p>But the thing is that as soon as the response is fetched, it is parsed and executed by the script element. The returned response is JSON Object, which is obviously not JS code and that&#39;s why we get a <strong>SyntaxError</strong>. To avoid this, a function name is provided as the value of <strong>callback</strong> parameter, then the response from the service will look something like this - <strong>userSuppliedFunction(JSON Object)</strong>. The script element then parses and executes the response and that&#39;s how we gather response without generating errors with JSONP.</p>
+<p>For this attack to work, the application should allow loading resources from a website that is hosting a JSONP endpoint. Say, the target application responds with following header:</p>
+<pre><code class="hljs language-text">header: Content-Security-Policy: script-src csp.com</code></pre>
+<p>A payload to trigger XSS in this scenario shall be:</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://siteHostingJsonP.com/jsonp?callback=alert(&#x27;bypass&#x27;)&quot;</span>&gt;</span></code></pre>
+<h3>Conclusion</h3>
+<p>Code injections attacks like XSS, Clickjacking, etc. have catastrophic impact on the application(s) and user(s) as well. Therefore, it is important to understand that CSP is not a thing to fully rely upon as it only prevents malicious scripts from getting executed, thus acting as a second line of defense.</p>
+<p>That&#39;s all for this post, meet you in another one, bye.</p>
+</article></div>
+  </body>
+</html>

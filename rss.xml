@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hardik Nanda</title>
+    <link>https://r0075h3ll.github.io/blog</link>
+    <description>Notes on application security, web security and DevSecOps.</description>
+    <language>en</language>
+    <atom:link href="https://r0075h3ll.github.io/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Content Security Policy for Dummies</title>
+      <link>https://r0075h3ll.github.io/blog/content-security-policy-for-dummies</link>
+      <guid isPermaLink="true">https://r0075h3ll.github.io/blog/content-security-policy-for-dummies</guid>
+      <pubDate>Sat, 31 May 2025 00:00:00 GMT</pubDate>
+      <description>How Content Security Policy works, which directives matter, and the common ways it gets bypassed.</description>
+      <category>Security</category>
+      <category>Browsers</category>
+    </item>
+    <item>
+      <title>Hacking Electron Applications 101</title>
+      <link>https://r0075h3ll.github.io/blog/hacking-electron-applications-101</link>
+      <guid isPermaLink="true">https://r0075h3ll.github.io/blog/hacking-electron-applications-101</guid>
+      <pubDate>Sat, 31 May 2025 00:00:00 GMT</pubDate>
+      <description>A primer on how browsers work, what Electron is, how to reverse engineer Electron apps, and the misconfigurations attackers exploit.</description>
+      <category>Electron</category>
+      <category>hacking</category>
+      <category>Security</category>
+      <category>Web Security</category>
+    </item>
+    <item>
+      <title>Open Redirects: Everything That You Should Know</title>
+      <link>https://r0075h3ll.github.io/blog/open-redirects-everything-that-you-should-know</link>
+      <guid isPermaLink="true">https://r0075h3ll.github.io/blog/open-redirects-everything-that-you-should-know</guid>
+      <pubDate>Sat, 31 May 2025 00:00:00 GMT</pubDate>
+      <description>Open redirects explained: how they happen, how to hunt for them, and a list of bypass payloads.</description>
+      <category>open-redirect</category>
+      <category>Security</category>
+      <category>vulnerability</category>
+      <category>Web Security</category>
+    </item>
+    <item>
+      <title>Using Gitlab for DevSecOps</title>
+      <link>https://r0075h3ll.github.io/blog/using-gitlab-for-devsecops</link>
+      <guid isPermaLink="true">https://r0075h3ll.github.io/blog/using-gitlab-for-devsecops</guid>
+      <pubDate>Sat, 28 Sep 2024 00:00:00 GMT</pubDate>
+      <description>Basics of GitLab CI, and how to wire software composition analysis with vet into a pipeline.</description>
+      <category>Devops</category>
+      <category>DevSecOps</category>
+      <category>GitLab</category>
+      <category>VET</category>
+      <category>supplychainsecurity</category>
+      <category>SCA</category>
+    </item>
+  </channel>
+</rss>

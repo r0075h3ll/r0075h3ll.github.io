@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="alternate" type="application/rss+xml" title="Hardik Nanda" href="/rss.xml" />
+    <title>Open Redirects: Everything That You Should Know | Hardik Nanda</title>
+    <meta name="description" content="Open redirects explained: how they happen, how to hunt for them, and a list of bypass payloads." />
+    <link rel="canonical" href="https://r0075h3ll.github.io/blog/open-redirects-everything-that-you-should-know" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Open Redirects: Everything That You Should Know | Hardik Nanda" />
+    <meta property="og:description" content="Open redirects explained: how they happen, how to hunt for them, and a list of bypass payloads." />
+    <meta property="og:url" content="https://r0075h3ll.github.io/blog/open-redirects-everything-that-you-should-know" />
+    <meta property="og:image" content="https://r0075h3ll.github.io/blog/open-redirects-everything-that-you-should-know.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="module" crossorigin src="/assets/index-vECcfkBC.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-Dy0Zaf5E.css">
+  </head>
+  <body>
+    <div id="root"><article><h1>Open Redirects: Everything That You Should Know</h1><p>Hey There! In this post I&#39;ll be explaining everything that is necessary for a layman(not really) to understand Open Redirects. Let&#39;s start!</p>
+<h3>Introduction</h3>
+<blockquote>
+<p>Open Redirect or Open Redirection is a situation in which a website redirects or sends the user to another website by taking parameter value as the destination.</p>
+</blockquote>
+<p>Example:</p>
+<ul>
+<li>URL : : <code>http://site.com/redir?url=http://www.google.com</code></li>
+<li>parameter name : : url</li>
+<li>parameter value : : <code>http://www.google.com</code></li>
+<li>destination(the website to which you will be redirected) : : <code>http://www.google.com</code></li>
+</ul>
+<h3>Javascript based redirections</h3>
+<p>The URL will send you or redirect you to <code>http://www.google.com</code>. Now, let&#39;s take a look at the code which is the cause of our redirection.</p>
+<pre><code class="hljs language-javascript"><span class="hljs-keyword">var</span> url = <span class="hljs-string">&#x27;http://site.com/redir?url=http://www.google.com&#x27;</span>;
+<span class="hljs-keyword">var</span> param = <span class="hljs-keyword">new</span> <span class="hljs-title function_">URL</span>(url);
+<span class="hljs-variable language_">window</span>.<span class="hljs-property">location</span> = param.<span class="hljs-property">searchParams</span>.<span class="hljs-title function_">get</span>(<span class="hljs-string">&#x27;url&#x27;</span>);</code></pre>
+<p>What&#39;s happening is that, the code is taking the parameter value from the URL which is <code>http://www.google.com</code> and then it&#39;s assigning the value to <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/location"><code>window.location</code></a> and that&#39;s how you are getting redirected to <code>http://www.google.com</code>. And this is what we call - Javascript Based Redirection.</p>
+<p><code>window.location</code> is the sink here, whereas <code>param.searchParams.get(&#39;url&#39;);</code> is the source.</p>
+<p><strong>Note:</strong> When you&#39;re trying to fuzz the parameters, remember that Javascript Based Redirections give you <code>200</code> and not <code>3xx</code> as the response code. Also, it&#39;s usefulness is only restricted to DOM XSS.</p>
+<h3>Header based redirections</h3>
+<p>Header Based Redirections are the redirections triggered by the server side scripts written in php, java, etc. And, this redirection is the OG as it gives <code>3xx</code> as the response code and it can be uplifted to make SSRFs work.</p>
+<p>Let&#39;s see an example PHP code that does this redirection:</p>
+<pre><code class="hljs language-php"><span class="hljs-variable">$redirect_URL</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&quot;url&quot;</span>];
+<span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Location:&quot;</span>.<span class="hljs-variable">$redirect_URL</span>);</code></pre>
+<p>As usual, the parameter value is getting stored into the location header which leads us to our redirection. It can be chained with vulnerabilities like SSRF, OAuth token disclosure and CRLF Injection. It can also be used for phishing.</p>
+<p>Functionalities you should look upto(while hunting for Open Redirects): login, signup, register &amp; logout.</p>
+<h3>Meta refresh redirections</h3>
+<p>Meta Refresh Redirection is a client side redirection. It occurs within your browser and requires no server side interaction. Meta tags are inserted into the head tag.</p>
+<pre><code class="hljs language-html"><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;1;url=&#x27;http://www.google.com&#x27;;&quot;</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;refresh&quot;</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span></code></pre>
+<p>The above meta tag, if inserted in a HTML document, will redirect to <code>http://www.google.com</code> after waiting for one second. These type of redirections (Javscript Based and Meta Refresh) are client side redirections and hence they will always puke out <code>200</code> as the response code. The exploitation is just same as Javascript Based Redirection, the only thing you have to keep an eye on is the meta tag and the JS content.</p>
+<h3>List of quality bypasses</h3>
+<p>Here&#39;s a short list of payloads that I&#39;ve collected, after going through some HackerOne reports and using them on different targets:</p>
+<ul>
+<li><code>https:www.google.com</code></li>
+<li><code>HtTp://google.com</code></li>
+<li><code>http\x3A\x2F\x2Fgoogle.com</code></li>
+<li><code>//google。com</code></li>
+<li><code>x00http://google.com</code></li>
+<li><code>////216.58.214.206</code></li>
+<li><code>/\216.58.214.206</code></li>
+<li><code>x20http://www.google.com</code></li>
+<li><code>https://www.google.com</code></li>
+<li><code>hthttp://tp://www.google.com</code></li>
+<li><code>。/www.google.com</code></li>
+</ul>
+<h3>Dorks and parameter names</h3>
+<p>Some useful google dorks:</p>
+<ul>
+<li><code>site:target.com AND inurl:url=http(s)</code></li>
+<li><code>site:target.com AND inurl:u=http(s)</code></li>
+<li><code>site:target.com AND inurl:redirect?http(s)</code></li>
+<li><code>site:target.com AND inurl:redirect=http(s)</code></li>
+<li><code>site:target.com AND inurl:link=http(s)</code></li>
+</ul>
+<p>Some parameter names that need attention while looking for Open Redirects:</p>
+<ul>
+<li><code>?next=</code></li>
+<li><code>?url=</code></li>
+<li><code>?dest=</code></li>
+<li><code>?redirect=</code></li>
+<li><code>?returnTo=</code></li>
+<li><code>?go=</code></li>
+<li><code>?redirect_uri</code></li>
+<li><code>?continue=</code></li>
+<li><code>?return_path=</code></li>
+<li><code>?externalLink=</code></li>
+<li><code>?URL=</code></li>
+</ul>
+<p>More resources:</p>
+<ul>
+<li><code>https://pentester.land/cheatsheets/2018/11/02/open-redirect-cheatsheet.html</code></li>
+<li><code>https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md</code></li>
+<li><code>https://blog.detectify.com/2019/05/16/the-real-impact-of-an-open-redirect/</code></li>
+</ul>
+<p>That&#39;s all for this post, signing off!</p>
+</article></div>
+  </body>
+</html>
