@@ -67,7 +67,10 @@ function blogPages(): Plugin {
           url,
           type: 'article',
           image: post.cover ? SITE_URL + post.cover : undefined,
-          body: `<article><h1>${esc(post.title)}</h1>${renderMarkdown(post.body)}</article>`,
+          body:
+            `<div class="notebook max-w-6xl mx-auto px-3 sm:px-6"><article class="nb-sheet nb-post">` +
+            `<h1 class="nb-serif nb-post-title">${esc(post.title)}</h1>` +
+            `<div class="prose-blog nb-prose">${renderMarkdown(post.body)}</div></article></div>`,
         }));
       }
 
