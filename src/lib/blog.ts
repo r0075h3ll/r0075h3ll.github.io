@@ -1,4 +1,4 @@
-import { Marked } from "marked";
+import { Marked, type Tokens } from "marked";
 import hljs from "highlight.js/lib/core";
 import bash from "highlight.js/lib/languages/bash";
 import javascript from "highlight.js/lib/languages/javascript";
@@ -33,16 +33,78 @@ hljs.registerLanguage("yaml", yaml);
 const escapeHtml = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
+/** A top-level section of a post, listed under "On this page". */
+export interface TocEntry {
+  id: string;
+  text: string;
+}
+
+/** Set on tokens by prepare() and read by the renderer. */
+interface Plan {
+  nbId?: string;
+  nbLevel?: number;
+  nbSection?: boolean;
+  nbTape?: boolean;
+}
+
+export const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/\p{M}/gu, "")
+    .replace(/<[^>]*>/g, "")
+    .replace(/&[a-z]+;/g, "")
+    .replace(/[^\p{L}\p{N}]+/gu, "-")
+    .replace(/^-+|-+$/g, "") || "section";
+
+const plainText = (s: string) => s.replace(/[`*_~]/g, "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").trim();
+
+const ALERT_LABELS: Record<string, string> = {
+  NOTE: "Margin note",
+  TIP: "Tip",
+  IMPORTANT: "Important",
+  WARNING: "Warning",
+  CAUTION: "Caution",
+};
+
 const marked = new Marked({
   gfm: true,
   renderer: {
-    code({ text, lang }) {
+    // Copy buttons are wired up in Blog.tsx.
+    code(token) {
+      const { text, lang } = token;
+      const taped = (token as typeof token & Plan).nbTape ? " taped" : "";
       const language = (lang ?? "").trim().split(/\s+/)[0];
       const body = hljs.getLanguage(language)
         ? hljs.highlight(text, { language, ignoreIllegals: true }).value
         : escapeHtml(text);
       const cls = language ? ` class="hljs language-${escapeHtml(language)}"` : ' class="hljs"';
-      return `<pre><code${cls}>${body}</code></pre>\n`;
+      const label = escapeHtml(language || "code");
+      const name = language ? `Copy ${label} code` : "Copy code";
+      return (
+        `<div class="code-block${taped}"><div class="code-head"><span>${label}</span>` +
+        `<button type="button" class="copy-code icon-button" aria-label="${name}" data-label="${name}">Copy</button>` +
+        `</div><pre><code${cls}>${body}</code></pre></div>\n`
+      );
+    },
+    heading(token) {
+      const plan = token as typeof token & Plan;
+      const level = Math.min(6, plan.nbLevel ?? token.depth);
+      const id = plan.nbId ? ` id="${plan.nbId}"` : "";
+      const sec = plan.nbSection ? " data-sec" : "";
+      return `<h${level}${id}${sec}>${this.parser.parseInline(token.tokens)}</h${level}>\n`;
+    },
+    // GitHub alert blockquotes ("> [!NOTE]", "> [!TIP]", etc.) become margin notes.
+    blockquote({ tokens }) {
+      const inner = this.parser.parse(tokens);
+      const alert = inner.match(/^<p>\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\][ \t]*\n?/i);
+      if (alert) {
+        const label = ALERT_LABELS[alert[1].toUpperCase()];
+        const after = inner.slice(alert[0].length);
+        const body = after.startsWith("</p>") ? after.replace(/^<\/p>\s*/, "") : `<p>${after}`;
+        return `<aside class="margin-note"><span class="margin-note-label">${label}</span>${body}</aside>\n`;
+      }
+      return `<blockquote>\n${inner}</blockquote>\n`;
     },
     // Wide tables scroll inside their own box instead of the whole page.
     table(token) {
@@ -53,8 +115,44 @@ const marked = new Marked({
   },
 });
 
+/**
+ * Posts start their sections at ## or ###. This shifts headings so the top level is
+ * always <h2>, gives each a unique id and marks top-level ones as numbered sections.
+ * Only headings at the document root count; ones inside quotes or lists are left alone.
+ */
+function prepare(md: string) {
+  const tokens = marked.lexer(md);
+  const headings = tokens.filter((t): t is Tokens.Heading & Plan => t.type === "heading");
+  const codes: (Tokens.Code & Plan)[] = [];
+  marked.walkTokens(tokens, t => {
+    if (t.type === "code") codes.push(t as Tokens.Code);
+  });
+  if (codes[0]) codes[0].nbTape = true;
+
+  const top = headings.length ? Math.min(...headings.map(h => h.depth)) : 2;
+  const used = new Set<string>();
+  const toc: TocEntry[] = [];
+  for (const h of headings) {
+    const text = plainText(h.text);
+    const base = slugify(text);
+    let id = base;
+    for (let n = 1; used.has(id); n++) id = `${base}-${n}`;
+    used.add(id);
+    h.nbId = id;
+    h.nbLevel = h.depth - top + 2;
+    h.nbSection = h.depth === top;
+    if (h.nbSection) toc.push({ id, text });
+  }
+  return { tokens, toc };
+}
+
+export function renderPost(md: string): { html: string; toc: TocEntry[] } {
+  const { tokens, toc } = prepare(md);
+  return { html: marked.parser(tokens), toc };
+}
+
 export function renderMarkdown(md: string): string {
-  return marked.parse(md, { async: false });
+  return renderPost(md).html;
 }
 
 /** Parses a `---` delimited block of flat `key: value` pairs. Values are JSON or bare strings. */
@@ -99,6 +197,17 @@ export function formatDate(iso: string): string {
     year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
   });
 }
+
+/** "31 May 2025", for the narrow margin column. */
+export function formatShortDate(iso: string): string {
+  const [y, mo, d] = iso.split("-").map(Number);
+  return new Date(Date.UTC(y, mo - 1, d)).toLocaleDateString("en-GB", {
+    year: "numeric", month: "short", day: "numeric", timeZone: "UTC",
+  });
+}
+
+/** "#web-security" from a front-matter tag like "Web Security". */
+export const tagLabel = (tag: string) => `#${slugify(tag)}`;
 
 export function readingMinutes(md: string): number {
   return Math.max(1, Math.round(md.split(/\s+/).length / 220));
