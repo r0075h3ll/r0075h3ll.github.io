@@ -176,16 +176,6 @@ function TocList({ toc, active }: { toc: TocEntry[]; active: string }) {
   );
 }
 
-function siteName(url?: string) {
-  if (!url) return "";
-  try {
-    const host = new URL(url).hostname.replace(/^www\./, "");
-    return host.endsWith("hashnode.dev") ? "Hashnode" : host;
-  } catch {
-    return "";
-  }
-}
-
 function PostCard({ post, label, align }: { post: Post; label: string; align?: "end" }) {
   return (
     <a href={`/blog/${post.slug}`} className={`nb-card${align === "end" ? " nb-card-end" : ""}`}>
@@ -211,7 +201,6 @@ export function BlogPost({ slug }: { slug: string }) {
 
   const { older, newer } = neighbours(post.slug);
   const minutes = readingMinutes(post.body);
-  const sourceName = siteName(post.originalUrl);
 
   return (
     <div className="notebook max-w-6xl mx-auto px-3 sm:px-6 pbs-6 sm:pbs-10 pbe-16 fade-in">
@@ -242,11 +231,6 @@ export function BlogPost({ slug }: { slug: string }) {
           <div className="prose-blog nb-prose" dangerouslySetInnerHTML={prose} />
 
           <footer className="nb-post-footer">
-            {post.originalUrl && sourceName && (
-              <p className="nb-mono nb-muted">
-                Originally published on <a href={post.originalUrl}>{sourceName}</a>
-              </p>
-            )}
             {(older || newer) && (
               <nav aria-label="More posts" className="nb-pager">
                 {older && <PostCard post={older} label="← Older" />}
